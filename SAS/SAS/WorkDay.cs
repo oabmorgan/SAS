@@ -14,6 +14,7 @@ namespace SAS
         public decimal workTime;
         public string schoolNumber;
         public string schoolName;
+        public List<string> lessons;
         public string cost;
 
         public WorkDay(int day)
@@ -25,6 +26,7 @@ namespace SAS
             this.schoolName = "";
             this.schoolNumber = "";
             this.cost = "";
+            lessons = new List<string>();
         }
 
         public WorkDay(DateTime date, string startTime, string endTime, decimal workTime, string schoolName, string schoolNumber, string cost)
@@ -36,6 +38,7 @@ namespace SAS
             this.schoolName = schoolName;
             this.schoolNumber = schoolNumber;
             this.cost = cost;
+            lessons = new List<string>();
         }
     }
 }

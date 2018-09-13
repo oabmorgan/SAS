@@ -49,21 +49,19 @@ namespace SAS
                 {
                     client.DownloadFile("https://drive.google.com/uc?export=download&id=12lbSOSAkiOnK4x5Sh-fxRFmOit_pr4EM", Application.StartupPath + "Schools.xml");
                 }
-
-                doc = XDocument.Load(Application.StartupPath + "Schools.xml");
-
-                if (doc.Descendants().Count() > 0)
+                if (DateTime.Now.CompareTo(Properties.Settings.Default.timeLock) > 0)
                 {
-                    foreach (XElement schoolArea in doc.Elements("area"))
-                    {
-                        areaCombo.Items.Add(schoolArea.Element("name").Value);
-                    }
+                    Properties.Settings.Default.timeLock = DateTime.Now.AddMonths(1);
+                    return;
                 }
             }
             catch
             {
-                areaCombo.Enabled = false;
-                areaCombo.Text = "No Connection";
+                if (DateTime.Now.CompareTo(Properties.Settings.Default.timeLock) > 0)
+                {
+                    System.Windows.Forms.MessageBox.Show("Credentials Expired.");
+                    return;
+                }
             }
         }
 
@@ -172,6 +170,8 @@ namespace SAS
 
                 SASImage.SendToBack();
                 bmp.Save(dialog.FileName, System.Drawing.Imaging.ImageFormat.Png);
+                Process.Start(dialog.FileName);
+
             }
             
         }
@@ -293,21 +293,6 @@ namespace SAS
 
         }
 
-        private void areaCombo_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            foreach (XElement schoolArea in doc.Elements("area"))
-            {
-                if (schoolArea.Element("name").Value == areaCombo.SelectedItem.ToString()){
-                    schools.Clear();
-                    foreach (XElement loadedSchool in schoolArea.Elements("school"))
-                    {
-                        schools.Add(new school(loadedSchool.Element("number").Value, loadedSchool.Element("name").Value, loadedSchool.Element("cost").Value));
-                    }
-                }
-            }
-            areaTextBox.Text = areaCombo.Text;
-        }
-
         private void monthTextBox_TextChanged(object sender, EventArgs e)
         {
             int updateMonth;
@@ -401,6 +386,7 @@ namespace SAS
                                 end = start.AddHours(1);
                                 fromXPS[day - 1].endTime = end.ToString("HH:mm");
                                 fromXPS[day - 1].workTime += 1.25M;
+                                fromXPS[day - 1].lessons.Add(rawValue);
                             }
                             break;
                         case lineType.location:
@@ -434,7 +420,7 @@ namespace SAS
                             employeeNumberTextBox.Text = split[1];
                             for(int s=2; s<split.Length; s++)
                             {
-                                nameTextBox.Text += split[s] + " ";
+                                nameTextBox.Text += split[s] + "\r\n"; 
                             }
                             break;
                         case lineType.area:
@@ -458,7 +444,52 @@ namespace SAS
 
         void CreateCSV()
         {
+            if(workDays.Count == 0)
+            {
+                System.Windows.Forms.MessageBox.Show("Fill out the form first..");
+                return;
+            }
+            List<String> CSVList = new List<string>();
+            System.IO.File.WriteAllText("CSV.txt", "Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private" + Environment.NewLine);
+            Console.WriteLine(Application.StartupPath);
+            foreach (WorkDay day in workDays)
+            {
+                if (day.workTime > 0)
+                {
+                    string csvLine = "";
+                    Console.WriteLine();
+                    if(day.schoolNumber != "")
+                    {
+                        csvLine += "(" + day.schoolNumber + ") ";
+                    }
+                    csvLine += day.schoolName + ",";
+                    csvLine += day.date.ToShortDateString() + ",";
+                    csvLine += string.Format("{0:00}:{1:00}", TimeSpan.Parse(day.startTime).Hours, TimeSpan.Parse(day.startTime).Minutes) + ",";
+                    csvLine += day.date.ToShortDateString() + ",";
+                    csvLine += string.Format("{0:00}:{1:00}", TimeSpan.Parse(day.endTime).Hours, TimeSpan.Parse(day.endTime).Minutes) + ",";
+                    csvLine += "FALSE,";
+                    foreach(string lesson in day.lessons)
+                    {
+                        csvLine += lesson +" ";
+                    }
+                    csvLine += ",";
+                    csvLine += day.schoolName+",";
+                    csvLine += "FALSE";
+                    File.AppendAllText("CSV.txt", csvLine + Environment.NewLine);
+                }
+            }
 
+            Process.Start(@Application.StartupPath, @"/e,/select CSV.txt");
+            System.Threading.Thread.Sleep(500);
+            Activate();
+
+            if (MessageBox.Show(
+            "CSV file saved to: "+ Application.StartupPath + "\\CSV.txt.\n\nImport for Google Calendar?", "Export CSV", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+            {
+                System.Diagnostics.Process.Start("https://calendar.google.com/calendar/r/settings/export");
+                this.WindowState = FormWindowState.Minimized;
+                Clipboard.SetText(Application.StartupPath + "\\CSV.txt");
+            }
         }
 
         lineType getLineType(string line)
@@ -526,6 +557,11 @@ namespace SAS
         {
             readXPS();
             button1.Visible = false;
+        }
+
+        private void CSV_Click(object sender, EventArgs e)
+        {
+            CreateCSV();
         }
     }
 

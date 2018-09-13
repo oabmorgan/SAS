@@ -42,9 +42,8 @@
             this.SASImage = new System.Windows.Forms.PictureBox();
             this.printDoc = new System.Drawing.Printing.PrintDocument();
             this.label1 = new System.Windows.Forms.Label();
-            this.areaCombo = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.LoadXPS = new System.Windows.Forms.Button();
+            this.CSV = new System.Windows.Forms.Button();
             this.printPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SASImage)).BeginInit();
             this.SuspendLayout();
@@ -53,7 +52,7 @@
             // 
             this.button1.Enabled = false;
             this.button1.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button1.Location = new System.Drawing.Point(815, 8);
+            this.button1.Location = new System.Drawing.Point(1156, 8);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(124, 34);
             this.button1.TabIndex = 4;
@@ -66,7 +65,7 @@
             this.button2.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button2.Location = new System.Drawing.Point(137, 8);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 34);
+            this.button2.Size = new System.Drawing.Size(67, 34);
             this.button2.TabIndex = 5;
             this.button2.Text = "Save";
             this.button2.UseVisualStyleBackColor = true;
@@ -143,7 +142,7 @@
             this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 187F));
-            this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
+            this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 109F));
             this.rightTableLayout.ForeColor = System.Drawing.Color.Red;
             this.rightTableLayout.Location = new System.Drawing.Point(546, 172);
             this.rightTableLayout.Margin = new System.Windows.Forms.Padding(0);
@@ -185,7 +184,7 @@
             this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 53F));
             this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 141F));
-            this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
+            this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
             this.leftTableLayout.ForeColor = System.Drawing.Color.Red;
             this.leftTableLayout.Location = new System.Drawing.Point(46, 172);
             this.leftTableLayout.Margin = new System.Windows.Forms.Padding(0);
@@ -246,32 +245,12 @@
             this.label1.AutoSize = true;
             this.label1.Enabled = false;
             this.label1.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.label1.Location = new System.Drawing.Point(1178, 869);
+            this.label1.Location = new System.Drawing.Point(1136, 869);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(102, 12);
+            this.label1.Size = new System.Drawing.Size(144, 12);
             this.label1.TabIndex = 16;
-            this.label1.Text = "V1.1 Oliver Morgan";
+            this.label1.Text = "V2.0 oabmorgan@gmail.com";
             this.label1.Click += new System.EventHandler(this.label1_Click);
-            // 
-            // areaCombo
-            // 
-            this.areaCombo.Font = new System.Drawing.Font("MS UI Gothic", 12F);
-            this.areaCombo.FormattingEnabled = true;
-            this.areaCombo.Location = new System.Drawing.Point(1105, 18);
-            this.areaCombo.Name = "areaCombo";
-            this.areaCombo.Size = new System.Drawing.Size(175, 24);
-            this.areaCombo.TabIndex = 1;
-            this.areaCombo.SelectedIndexChanged += new System.EventHandler(this.areaCombo_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("MS UI Gothic", 12F);
-            this.label2.Location = new System.Drawing.Point(961, 21);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(138, 16);
-            this.label2.TabIndex = 19;
-            this.label2.Text = "Load Area Schools:";
             // 
             // LoadXPS
             // 
@@ -285,6 +264,23 @@
             this.LoadXPS.UseVisualStyleBackColor = false;
             this.LoadXPS.Click += new System.EventHandler(this.LoadXPS_Click);
             // 
+            // CSV
+            // 
+            this.CSV.AccessibleDescription = "";
+            this.CSV.BackColor = System.Drawing.SystemColors.Control;
+            this.CSV.DialogResult = System.Windows.Forms.DialogResult.No;
+            this.CSV.FlatAppearance.BorderColor = System.Drawing.Color.Yellow;
+            this.CSV.FlatAppearance.BorderSize = 3;
+            this.CSV.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CSV.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.CSV.Location = new System.Drawing.Point(906, 8);
+            this.CSV.Name = "CSV";
+            this.CSV.Size = new System.Drawing.Size(244, 34);
+            this.CSV.TabIndex = 23;
+            this.CSV.Text = "Export for Calendar (.CSV)";
+            this.CSV.UseVisualStyleBackColor = false;
+            this.CSV.Click += new System.EventHandler(this.CSV_Click);
+            // 
             // SAS
             // 
             this.AcceptButton = this.button1;
@@ -292,9 +288,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1295, 888);
+            this.Controls.Add(this.CSV);
             this.Controls.Add(this.LoadXPS);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.areaCombo);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -325,8 +320,7 @@
         private System.Windows.Forms.TableLayoutPanel rightTableLayout;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox areaTextBox;
-        private System.Windows.Forms.ComboBox areaCombo;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button LoadXPS;
+        private System.Windows.Forms.Button CSV;
     }
 }
