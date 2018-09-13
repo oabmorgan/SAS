@@ -13,6 +13,9 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Printing;
 using System.Xml.Linq;
 using System.Xml;
+using System.IO;
+using System.IO.Compression;
+
 
 namespace SAS
 {
@@ -66,6 +69,7 @@ namespace SAS
 
         private void button1_Click(object sender, EventArgs e)
         {
+            LoadXPS.Visible = false;
             EditDayForm editDayForm = new EditDayForm();
             if (currentDay > 1)
             {
@@ -74,6 +78,12 @@ namespace SAS
             editDayForm.StartPosition = FormStartPosition.CenterParent;
             editDayForm.date = reportMonth.AddDays(currentDay);
             editDayForm.schools = schools;
+
+            if(path != null)
+            {
+                Console.WriteLine("try to read XPS Stuff");
+            }
+
             editDayForm.updateForm();
 
             DialogResult result = editDayForm.ShowDialog();
@@ -143,19 +153,15 @@ namespace SAS
                 }
                 totalTime += day.workTime;
             }
-
-            Report.Text = "("+employeeNumber+"/"+area+") "+name+" "+totalTime + " Hours ¥" + totalCost;
         }
 
         private void PrintImage()
         {
-            
-
-
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "PNG Files (*.png)|*.png";
             dialog.DefaultExt = "png";
             dialog.AddExtension = true;
+            dialog.FileName = "SAS_"+yearTextBox.Text + "_" + monthTextBox.Text + "_" + nameTextBox.Text + "_" + employeeNumberTextBox.Text;
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 SASImage.BringToFront();
@@ -165,7 +171,6 @@ namespace SAS
                 printPanel.DrawToBitmap(bmp, new Rectangle(0, 0, width, height));
 
                 SASImage.SendToBack();
-                
                 bmp.Save(dialog.FileName, System.Drawing.Imaging.ImageFormat.Png);
             }
             
@@ -313,6 +318,215 @@ namespace SAS
                 }
             }
         }
+
+        string path;
+        string unzipPath;
+
+        void readXPS()
+        {
+            leftTableLayout.Controls.Clear();
+            rightTableLayout.Controls.Clear();
+            nameTextBox.Text = "";
+            employeeNumberTextBox.Text = "";
+            areaTextBox.Text = "";
+            monthTextBox.Text = "";
+            yearTextBox.Text = "";
+
+            List<WorkDay> fromXPS = new List<WorkDay>();
+
+            OpenFileDialog file = new OpenFileDialog();
+            file.Filter = "Schedule files (*.xps)|*.xps; *.XPS; *.OXPS; *.oxps)";
+
+            if (file.ShowDialog() == DialogResult.OK)
+            {
+                path = file.FileName;
+                Console.WriteLine("Loaded " + path);
+
+                using (ZipArchive archive = ZipFile.OpenRead(path))
+                {
+                    foreach(ZipArchiveEntry entry in archive.Entries)
+                    {
+                        Console.WriteLine(entry.Name);
+                        if(entry.Name == "1.fpage")
+                        {
+                            unzipPath = path + "- Unzipped";
+                            if (File.Exists(unzipPath))
+                            {
+                                File.Delete(unzipPath);
+                            }
+                            entry.ExtractToFile(path + "- Unzipped");
+                        }
+                    }
+                }
+
+                string[] lines = System.IO.File.ReadAllLines(unzipPath);
+                int day = 1;
+
+                foreach(string line in lines)
+                {
+                    string rawValue = readLine(line, "UnicodeString");
+                    Console.WriteLine(rawValue);
+                    switch (getLineType(line))
+                    {
+                        case lineType.day:
+                            int p;
+                            if(int.TryParse(rawValue, out p))
+                            {
+                                if (rawValue.Length == 4)
+                                {
+                                    int day1 = int.Parse(rawValue.Substring(0, 2));
+                                    int day2 = int.Parse(rawValue.Substring(2, 2));
+                                    Console.WriteLine("Day: " + day1);
+                                    fromXPS.Add(new WorkDay(day1));
+                                    Console.WriteLine("Day: " + day2);
+                                    fromXPS.Add(new WorkDay(day2));
+                                    day = day2;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Day: " + p);
+                                    fromXPS.Add(new WorkDay(p));
+                                    day = p;
+                                }
+                            }
+                            break;
+                        case lineType.time:
+                            DateTime start;
+                            DateTime end;
+                            if (DateTime.TryParse(rawValue.Split(' ')[0], out start))
+                            {
+                                if(fromXPS[day-1].startTime == "")
+                                    fromXPS[day-1].startTime = start.ToString("HH:mm");
+
+                                end = start.AddHours(1);
+                                fromXPS[day - 1].endTime = end.ToString("HH:mm");
+                                fromXPS[day - 1].workTime += 1.25M;
+                            }
+                            break;
+                        case lineType.location:
+                            if (fromXPS.Count > 0 && day > 0)
+                            {
+                                int schoolNumber;
+                                if (int.TryParse(rawValue.Split(' ')[0], out schoolNumber))
+                                {
+                                    fromXPS[day - 1].schoolNumber = schoolNumber.ToString();
+                                    fromXPS[day - 1].schoolName = rawValue.Split(' ')[1];
+                                }
+                                else
+                                {
+                                    fromXPS[day - 1].schoolName += rawValue;
+                                }
+                                if(fromXPS[day-1].schoolName == "OFFICE DAY")
+                                {
+                                    fromXPS[day - 1].startTime = "11:00";
+                                    fromXPS[day - 1].endTime = "16:30";
+                                    fromXPS[day - 1].workTime = 5.5M;
+                                }
+                                if (fromXPS[day - 1].schoolName == "DAY OFF")
+                                {
+                                    fromXPS[day - 1].schoolName = "";
+                                }
+                            }
+                            break;
+                        case lineType.teacher:
+                            day = 0;
+                            string[] split = rawValue.Split(' ');
+                            employeeNumberTextBox.Text = split[1];
+                            for(int s=2; s<split.Length; s++)
+                            {
+                                nameTextBox.Text += split[s] + " ";
+                            }
+                            break;
+                        case lineType.area:
+                            areaTextBox.Text = rawValue.Split(' ').Last();
+                            break;
+                        case lineType.month:
+                            monthTextBox.Text = rawValue.Split(' ').Last().Substring(3,2).Split('/')[0];
+                            yearTextBox.Text = rawValue.Split(' ').Last().Substring(0,2);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            foreach(WorkDay workday in fromXPS)
+            {
+                addDay(workday);
+            }
+
+        }
+
+        void CreateCSV()
+        {
+
+        }
+
+        lineType getLineType(string line)
+        {
+            //PRINTED 2018/09/13REG　22 G-KITANIHON           AREA 0060 SENDAIUPDATE 2018/09/12MONTH  2018/09TEACHER 01351142  Chris HaydenSC0101
+            string rawValue = readLine(line, "UnicodeString");
+            if (line.Contains("BoldSimulation"))
+            {
+                return lineType.day;
+            }
+            if (rawValue.Contains(":"))
+            {
+                return lineType.time;
+            }
+            if (rawValue.Contains("PRINTED"))
+            {
+                return lineType.none;
+            }
+            if (rawValue.Contains("AREA"))
+            {
+                return lineType.area;
+            }
+            if (rawValue.Contains("UPDATE"))
+            {
+                return lineType.update;
+            }
+            if (rawValue.Contains("MONTH"))
+            {
+                return lineType.month;
+            }
+            if (rawValue.Contains("TEACHER"))
+            {
+                return lineType.teacher;
+            }
+            return lineType.location;
+        }
+
+        enum lineType
+        {
+            none,
+            day,
+            time,
+            location,
+            update,
+            teacher,
+            area,
+            month
+        }
+
+        string readLine(string line, string target)
+        {
+            string returnString;
+            int from = line.IndexOf(target) + target.Length + 2;
+            int to = line.IndexOf(">") - 3;
+
+            if (from > target.Length + 1 && to > from)
+            {
+                returnString = line.Substring(from, to - from).Trim();
+                return returnString;
+            }
+            return "";
+        }
+
+        private void LoadXPS_Click(object sender, EventArgs e)
+        {
+            readXPS();
+            button1.Visible = false;
+        }
     }
 
     public class school
@@ -328,4 +542,6 @@ namespace SAS
             travelCost = cost;
         }
     }
+
+
 }

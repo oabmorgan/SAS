@@ -42,9 +42,9 @@
             this.SASImage = new System.Windows.Forms.PictureBox();
             this.printDoc = new System.Drawing.Printing.PrintDocument();
             this.label1 = new System.Windows.Forms.Label();
-            this.Report = new System.Windows.Forms.Label();
             this.areaCombo = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.LoadXPS = new System.Windows.Forms.Button();
             this.printPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SASImage)).BeginInit();
             this.SuspendLayout();
@@ -53,18 +53,18 @@
             // 
             this.button1.Enabled = false;
             this.button1.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button1.Location = new System.Drawing.Point(12, 12);
+            this.button1.Location = new System.Drawing.Point(815, 8);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 34);
+            this.button1.Size = new System.Drawing.Size(124, 34);
             this.button1.TabIndex = 4;
-            this.button1.Text = "Start";
+            this.button1.Text = "Manual Entry";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button2.Location = new System.Drawing.Point(93, 12);
+            this.button2.Location = new System.Drawing.Point(137, 8);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 34);
             this.button2.TabIndex = 5;
@@ -143,7 +143,7 @@
             this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 187F));
-            this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
             this.rightTableLayout.ForeColor = System.Drawing.Color.Red;
             this.rightTableLayout.Location = new System.Drawing.Point(546, 172);
             this.rightTableLayout.Margin = new System.Windows.Forms.Padding(0);
@@ -185,7 +185,7 @@
             this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 53F));
             this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 141F));
-            this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 105F));
+            this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 110F));
             this.leftTableLayout.ForeColor = System.Drawing.Color.Red;
             this.leftTableLayout.Location = new System.Drawing.Point(46, 172);
             this.leftTableLayout.Margin = new System.Windows.Forms.Padding(0);
@@ -253,17 +253,6 @@
             this.label1.Text = "V1.1 Oliver Morgan";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
-            // Report
-            // 
-            this.Report.AutoSize = true;
-            this.Report.BackColor = System.Drawing.SystemColors.Info;
-            this.Report.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.Report.Location = new System.Drawing.Point(195, 21);
-            this.Report.Name = "Report";
-            this.Report.Size = new System.Drawing.Size(324, 16);
-            this.Report.TabIndex = 17;
-            this.Report.Text = "Complete all highlighted fields then press Start.";
-            // 
             // areaCombo
             // 
             this.areaCombo.Font = new System.Drawing.Font("MS UI Gothic", 12F);
@@ -284,6 +273,18 @@
             this.label2.TabIndex = 19;
             this.label2.Text = "Load Area Schools:";
             // 
+            // LoadXPS
+            // 
+            this.LoadXPS.BackColor = System.Drawing.Color.Lime;
+            this.LoadXPS.Font = new System.Drawing.Font("MS UI Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.LoadXPS.Location = new System.Drawing.Point(12, 8);
+            this.LoadXPS.Name = "LoadXPS";
+            this.LoadXPS.Size = new System.Drawing.Size(119, 34);
+            this.LoadXPS.TabIndex = 22;
+            this.LoadXPS.Text = "LoadXPS";
+            this.LoadXPS.UseVisualStyleBackColor = false;
+            this.LoadXPS.Click += new System.EventHandler(this.LoadXPS_Click);
+            // 
             // SAS
             // 
             this.AcceptButton = this.button1;
@@ -291,9 +292,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1295, 888);
+            this.Controls.Add(this.LoadXPS);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.areaCombo);
-            this.Controls.Add(this.Report);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -323,9 +324,9 @@
         private System.Drawing.Printing.PrintDocument printDoc;
         private System.Windows.Forms.TableLayoutPanel rightTableLayout;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label Report;
         private System.Windows.Forms.TextBox areaTextBox;
         private System.Windows.Forms.ComboBox areaCombo;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button LoadXPS;
     }
 }

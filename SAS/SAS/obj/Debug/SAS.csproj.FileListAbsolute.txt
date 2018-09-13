@@ -9,3 +9,14 @@ C:\Users\Oliver\source\repos\SAS\SAS\obj\Debug\SAS.pdb
 C:\Users\Oliver\source\repos\SAS\SAS\obj\Debug\SAS.csprojResolveAssemblyReference.cache
 C:\Users\Oliver\source\repos\SAS\SAS\obj\Debug\SAS.SAS.resources
 C:\Users\Oliver\source\repos\SAS\SAS\obj\Debug\SAS.EditDayForm.resources
+C:\Users\Oliver\Documents\SAS\SAS\SAS\bin\Debug\SAS.exe.config
+C:\Users\Oliver\Documents\SAS\SAS\SAS\bin\Debug\SAS.exe
+C:\Users\Oliver\Documents\SAS\SAS\SAS\bin\Debug\SAS.pdb
+C:\Users\Oliver\Documents\SAS\SAS\SAS\obj\Debug\SAS.csprojResolveAssemblyReference.cache
+C:\Users\Oliver\Documents\SAS\SAS\SAS\obj\Debug\SAS.EditDayForm.resources
+C:\Users\Oliver\Documents\SAS\SAS\SAS\obj\Debug\SAS.Properties.Resources.resources
+C:\Users\Oliver\Documents\SAS\SAS\SAS\obj\Debug\SAS.SAS.resources
+C:\Users\Oliver\Documents\SAS\SAS\SAS\obj\Debug\SAS.csproj.GenerateResource.Cache
+C:\Users\Oliver\Documents\SAS\SAS\SAS\obj\Debug\SAS.csproj.CoreCompileInputs.cache
+C:\Users\Oliver\Documents\SAS\SAS\SAS\obj\Debug\SAS.exe
+C:\Users\Oliver\Documents\SAS\SAS\SAS\obj\Debug\SAS.pdb

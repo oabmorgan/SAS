@@ -16,6 +16,17 @@ namespace SAS
         public string schoolName;
         public string cost;
 
+        public WorkDay(int day)
+        {
+            this.date = new DateTime(2018, 10, day);
+            this.startTime = "";
+            this.endTime = "";
+            this.workTime = 0;
+            this.schoolName = "";
+            this.schoolNumber = "";
+            this.cost = "";
+        }
+
         public WorkDay(DateTime date, string startTime, string endTime, decimal workTime, string schoolName, string schoolNumber, string cost)
         {
             this.date = date;
