@@ -21,3 +21,6 @@ Repeat until the month is complete.
 Any errors can be manually fixed by editing the form.
 Once everything is complete, press Save to save a copy of the SAS as an image file to be printed.
 Don't forget to sign the form after printing.
+
+# Disclamer 
+I'm not to blame if you're late or whatever. Don't rely on this tool.
