@@ -142,7 +142,7 @@
             this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 54F));
             this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 43F));
             this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 187F));
-            this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 109F));
+            this.rightTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 111F));
             this.rightTableLayout.ForeColor = System.Drawing.Color.Red;
             this.rightTableLayout.Location = new System.Drawing.Point(546, 172);
             this.rightTableLayout.Margin = new System.Windows.Forms.Padding(0);
@@ -175,6 +175,7 @@
             // 
             this.leftTableLayout.BackColor = System.Drawing.Color.White;
             this.leftTableLayout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.leftTableLayout.CausesValidation = false;
             this.leftTableLayout.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.leftTableLayout.ColumnCount = 8;
             this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 28F));
@@ -184,7 +185,8 @@
             this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 53F));
             this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 44F));
             this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 141F));
-            this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 114F));
+            this.leftTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 116F));
+            this.leftTableLayout.Cursor = System.Windows.Forms.Cursors.Default;
             this.leftTableLayout.ForeColor = System.Drawing.Color.Red;
             this.leftTableLayout.Location = new System.Drawing.Point(46, 172);
             this.leftTableLayout.Margin = new System.Windows.Forms.Padding(0);
@@ -249,7 +251,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(144, 12);
             this.label1.TabIndex = 16;
-            this.label1.Text = "V2.0 oabmorgan@gmail.com";
+            this.label1.Text = "V2.1 oabmorgan@gmail.com";
             this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // LoadXPS

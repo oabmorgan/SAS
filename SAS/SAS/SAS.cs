@@ -22,7 +22,7 @@ namespace SAS
     public partial class SAS : Form
     {
 
-        public DateTime reportMonth = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+        public DateTime reportMonth;
 
         public int currentDay = 0;
 
@@ -159,7 +159,7 @@ namespace SAS
             dialog.Filter = "PNG Files (*.png)|*.png";
             dialog.DefaultExt = "png";
             dialog.AddExtension = true;
-            dialog.FileName = "SAS_"+yearTextBox.Text + "_" + monthTextBox.Text + "_" + nameTextBox.Text + "_" + employeeNumberTextBox.Text;
+            dialog.FileName = "SAS_"+yearTextBox.Text.Trim() + "_" + monthTextBox.Text.Trim() + "_" + nameTextBox.Text.Trim() + "_" + employeeNumberTextBox.Text.Trim();
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 SASImage.BringToFront();
@@ -290,7 +290,7 @@ namespace SAS
 
         private void label1_Click(object sender, EventArgs e)
         {
-
+            System.Diagnostics.Process.Start("https://oabmorgan.net");
         }
 
         private void monthTextBox_TextChanged(object sender, EventArgs e)
@@ -299,7 +299,7 @@ namespace SAS
             if(int.TryParse(monthTextBox.Text, out updateMonth)){
                 if (updateMonth > 0 && updateMonth <= 12)
                 {
-                    reportMonth = new DateTime(reportMonth.Year, int.Parse(monthTextBox.Text), reportMonth.Day);
+                    reportMonth = new DateTime(int.Parse(yearTextBox.Text), int.Parse(monthTextBox.Text), reportMonth.Day);
                 }
             }
         }
@@ -420,24 +420,27 @@ namespace SAS
                             employeeNumberTextBox.Text = split[1];
                             for(int s=2; s<split.Length; s++)
                             {
-                                nameTextBox.Text += split[s] + "\r\n"; 
+                                nameTextBox.Text += split[s] + " "; 
                             }
                             break;
                         case lineType.area:
                             areaTextBox.Text = rawValue.Split(' ').Last();
                             break;
                         case lineType.month:
-                            monthTextBox.Text = rawValue.Split(' ').Last().Substring(3,2).Split('/')[0];
-                            yearTextBox.Text = rawValue.Split(' ').Last().Substring(0,2);
+                            yearTextBox.Text = rawValue.Substring(7, 4).Trim();
+                            monthTextBox.Text = rawValue.Substring(12, 2).Trim();
+                            Console.WriteLine(reportMonth.ToShortDateString());
                             break;
                         default:
                             break;
                     }
                 }
             }
-            foreach(WorkDay workday in fromXPS)
+            for(int i=0; i<fromXPS.Count; i++)
             {
-                addDay(workday);
+                Console.WriteLine(i);
+                fromXPS[i].date = new DateTime(reportMonth.Year, reportMonth.Month, i+1);
+                addDay(fromXPS[i]);
             }
 
         }
